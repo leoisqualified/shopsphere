@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function index() {
         // Fetch all products from the database
-        $products = Product::all();
+        $products = Product::latest()->paginate(10);
         $category = Category::all();
 
         // Return the view with the products
