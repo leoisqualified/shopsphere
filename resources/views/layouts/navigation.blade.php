@@ -19,7 +19,7 @@
                     <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
                         Categories
                     </x-nav-link>
-                    <x-nav-link :href="route('cart')" :active="request()->routeIs('cart')">
+                    <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart')">
                         Cart
                     </x-nav-link>
                 </div>
