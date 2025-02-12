@@ -87,7 +87,7 @@
             <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
                 Categories
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('cart')" :active="request()->routeIs('cart')">
+            <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart')">
                 Cart
             </x-responsive-nav-link>
         </div>
