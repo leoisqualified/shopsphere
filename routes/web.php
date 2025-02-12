@@ -1,22 +1,25 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [ProductController::class, 'index'])->name('home');
-Route::get('/search', [ProductController::class, 'search'])->name('products.search');
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/cart', [CartController::class, 'index'])->name('cart');
-    Route::post('/cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::post('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
-
-    Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
-    Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
+Route::get('/', function () {
+    return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 require __DIR__.'/auth.php';

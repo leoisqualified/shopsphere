@@ -1,63 +1,36 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ShopSphere</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 text-gray-900">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Navigation Bar -->
-    <nav class="bg-blue-600 text-white p-4 shadow">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="{{ route('home') }}" class="text-2xl font-bold">ShopSphere</a>
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-            <!-- Search Bar -->
-            <form action="{{ route('products.search') }}" method="GET" class="flex bg-white text-gray-800 rounded-lg">
-                <input type="text" name="query" placeholder="Search products..." class="p-2 rounded-l-lg focus:outline-none w-64">
-                <button type="submit" class="bg-green-500 px-4 rounded-r-lg">Search</button>
-            </form>
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-            <!-- Nav Links -->
-            <ul class="flex space-x-4">
-                <li><a href="{{ route('home') }}" class="hover:underline">Home</a></li>
-                <li><a href="{{ route('categories.index') }}" class="hover:underline">Categories</a></li>
-                <li><a href="{{ route('cart') }}" class="hover:underline">Cart</a></li>
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </head>
+    <body class="font-sans antialiased">
+        <div class="min-h-screen bg-gray-100">
+            @include('layouts.navigation')
 
-                @auth
-                    <li><a href="{{ route('dashboard') }}" class="hover:underline">Dashboard</a></li>
-                    <li>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="hover:underline">Logout</button>
-                        </form>
-                    </li>
-                @else
-                    <li><a href="{{ route('login') }}" class="hover:underline">Login</a></li>
-                    <li><a href="{{ route('register') }}" class="hover:underline">Register</a></li>
-                @endauth
-            </ul>
+            <!-- Page Heading -->
+            @isset($header)
+                <header class="bg-white shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endisset
+
+            <!-- Page Content -->
+            <main>
+                {{ $slot }}
+            </main>
         </div>
-    </nav>
-
-    <!-- Flash Messages -->
-    @if(session('success'))
-        <div class="bg-green-500 text-white text-center p-2">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="bg-red-500 text-white text-center p-2">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    <!-- Main Content -->
-    <div class="container mx-auto mt-6">
-        @yield('content')
-    </div>
-
-</body>
+    </body>
 </html>
